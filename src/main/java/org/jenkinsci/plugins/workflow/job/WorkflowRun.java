@@ -346,6 +346,17 @@ public final class WorkflowRun extends Run<WorkflowJob,WorkflowRun> implements F
                 }
                 // Not bothering to look for other older builds in progress, since once we turn this on, going forward there should be at most one.
             }
+
+            if (dcb != null && dcb.isAbortPreviousQueued()) {
+                WorkflowRun prev = getPreviousBuild();
+                if (prev != null && prev.hasntStartedYet()) {
+                    Executor e = prev.getExecutor();
+                    if (e != null) {
+                        e.interrupt(Result.NOT_BUILT, new DisableConcurrentBuildsJobProperty.CancelledCause(this));
+                    }
+                }
+                // Not bothering to look for other older builds in progress, since once we turn this on, going forward there should be at most one.
+            }
         } catch (Throwable x) {
             execution = null; // ensures isInProgress returns false
             executionLoaded = true;

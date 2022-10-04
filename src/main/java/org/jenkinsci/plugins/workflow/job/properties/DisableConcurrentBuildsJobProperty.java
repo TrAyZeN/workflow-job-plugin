@@ -45,6 +45,7 @@ import org.kohsuke.stapler.export.ExportedBean;
 public class DisableConcurrentBuildsJobProperty extends OptionalJobProperty<WorkflowJob> {
 
     private boolean abortPrevious;
+    private boolean abortPreviousQueued;
 
     @DataBoundConstructor
     public DisableConcurrentBuildsJobProperty() {
@@ -57,6 +58,15 @@ public class DisableConcurrentBuildsJobProperty extends OptionalJobProperty<Work
     @DataBoundSetter
     public void setAbortPrevious(boolean abortPrevious) {
         this.abortPrevious = abortPrevious;
+    }
+
+    public boolean isAbortPreviousQueued() {
+        return abortPreviousQueued;
+    }
+
+    @DataBoundSetter
+    public void setAbortPreviousQueued(boolean abortPreviousQueued) {
+        this.abortPreviousQueued = abortPreviousQueued;
     }
 
     @Extension
